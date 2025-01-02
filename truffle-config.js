@@ -70,10 +70,6 @@ module.exports = {
      network_id: "5777",       // Any network (default: none)
     },
 
-    // contract directory
-    contracts_directory: './src/contracts',
-    // build dir
-    contracts_build_directory: './src/abis',
     
     // An additional network, but with some advanced options…
     // advanced: {
@@ -102,6 +98,12 @@ module.exports = {
     //   production: true    // Treats this network as if it was a public net. (default: false)
     // }
   },
+
+      // contract directory
+      contracts_directory: './src/contracts',
+      // build dir
+      contracts_build_directory: './src/abis',
+  
 
   // Set default mocha options here, use special reporters, etc.
   mocha: {
