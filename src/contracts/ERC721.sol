@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-contract REC721 {
+contract ERC721 {
     event Transfer(
         address indexed _from,
         address indexed _to,
@@ -21,9 +21,9 @@ contract REC721 {
 
     function _mint(address to, uint tokenId) internal {
         // check if addres != 0
-        require(to != address(0), "Must be ERC721 address", _);
+        require(to != address(0), "Must be ERC721 address");
         //    Check if token is associated to address
-        require(!_exist(tokenId), "Token allready minted", _);
+        require(!_exist(tokenId), "Token allready minted");
 
         // add token to address and increment count of address
         _tokenOwner[tokenId] = to;
