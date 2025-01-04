@@ -8,9 +8,9 @@ Compile the code
 
 `truffle compile`
 
-deploy ot the blockchain
+deploy ot the blockchain add reset flag for other migrations
 
-`truffle migrate`
+`truffle migrate --reset`
 
 Test the contract locally
 
