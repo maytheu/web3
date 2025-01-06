@@ -13,19 +13,24 @@ contract ERC721 {
         uint256 indexed _tokenId
     );
 
+    // return total nfs owned/minted
     function balanceOf(address _owner) public view returns (uint256) {
         require(_owner != address(0), "Address do not exist");
         return _ownedTokens[_owner];
     }
 
+    //return address based on mint index
     /// @notice Find the owner of an NFT
     /// @dev NFTs assigned to zero address are considered invalid, and queries
     ///  about them do throw.
     /// @param _tokenId The identifier for an NFT
     /// @return The address of the owner of the NFT
     function ownerOf(uint256 _tokenId) public view returns (address) {
-        require(!_exist(_tokenId), "Token not found");
+        require(_exist(_tokenId), "Token not found");
         return _tokenOwner[_tokenId];
+        // address owner = _tokenOwner[_tokenId];
+        // require(owner != address(0), "Nft index not found");
+        // return owner;
     }
 
     function _exist(uint tokenId) internal view returns (bool) {
@@ -34,7 +39,7 @@ contract ERC721 {
         return owner != address(0);
     }
 
-    function _mint(address to, uint tokenId) internal {
+    function _mint(address to, uint tokenId) internal virtual {
         // check if addres != 0
         require(to != address(0), "Must be ERC721 address");
         //    Check if token is associated to address
