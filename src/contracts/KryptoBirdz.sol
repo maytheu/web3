@@ -14,7 +14,7 @@ contract KryptoBirdz is ERC721Connector {
         kryptobird.push(_kryptobird);
         uint256 _id = kryptobird.length - 1;
 
-        // _mint() from ERC721
+        //inherit _mint() from ERC721 
         _mint(msg.sender, _id);
         _kryptobirdExist[_kryptobird] = true;
     }
