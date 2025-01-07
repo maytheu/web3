@@ -6,10 +6,17 @@ contract ERC721 {
     mapping(uint => address) private _tokenOwner;
     // map address to owned tokens
     mapping(address => uint) private _ownedTokens;
+    mapping(uint256 => address) private _tokenApproval;
 
     event Transfer(
         address indexed _from,
         address indexed _to,
+        uint256 indexed _tokenId
+    );
+
+    event Approval(
+        address indexed _owner,
+        address indexed _approved,
         uint256 indexed _tokenId
     );
 
@@ -50,5 +57,74 @@ contract ERC721 {
         _ownedTokens[to] += 1;
 
         emit Transfer(address(0), to, tokenId);
+    }
+
+    /// @notice Transfer ownership of an NFT -- THE CALLER IS RESPONSIBLE
+    ///  TO CONFIRM THAT `_to` IS CAPABLE OF RECEIVING NFTS OR ELSE
+    ///  THEY MAY BE PERMANENTLY LOST
+    /// @dev Throws unless `msg.sender` is the current owner, an authorized
+    ///  operator, or the approved address for this NFT. Throws if `_from` is
+    ///  not the current owner. Throws if `_to` is the zero address. Throws if
+    ///  `_tokenId` is not a valid NFT.
+    /// @param _from The current owner of the NFT
+    /// @param _to The new owner
+    /// @param _tokenId The NFT to transfer
+    function _transferFrom(
+        address _from,
+        address _to,
+        uint256 _tokenId
+    ) internal {
+        require(_to != address(0), "Transfer to zero address");
+        require(
+            ownerOf(_tokenId) == _from,
+            "Transfer token to invalid address"
+        );
+
+        _ownedTokens[_from] += 1;
+        _ownedTokens[_to] += 1;
+
+        _tokenOwner[_tokenId] = _to;
+
+        emit Transfer(_from, _to, _tokenId);
+    }
+
+    function transferFrom(address _from, address _to, uint256 _tokenId) public {
+        require(_isApprovedOrOwner(msg.sender, _tokenId));
+        _transferFrom(_from, _to, _tokenId);
+    }
+
+    /// @notice Change or reaffirm the approved address for an NFT
+    /// @dev The zero address indicates there is no approved address.
+    ///  Throws unless `msg.sender` is the current NFT owner, or an authorized
+    ///  operator of the current owner.
+    /// @param _approved The new approved NFT controller
+    /// @param _tokenId The NFT to approve
+    function approve(address _approved, uint256 _tokenId) external {
+        address owner = ownerOf(_tokenId);
+        require(_approved != owner, "Approval of current owner");
+        require(msg.sender == owner, "You should be the onwer of this token");
+
+        _tokenApproval[_tokenId] = _approved;
+
+        emit Approval(owner, _approved, _tokenId);
+    }
+
+    function _isApprovedOrOwner(
+        address spender,
+        uint256 tokenId
+    ) internal view returns (bool) {
+        require(_exist(tokenId), "Token not found");
+        address owner = ownerOf(tokenId);
+        require(spender != owner, "Approval of current owner");
+        return spender == owner || getApproved(tokenId) == spender;
+    }
+
+    /// @notice Get the approved address for a single NFT
+    /// @dev Throws if `_tokenId` is not a valid NFT.
+    /// @param _tokenId The NFT to find the approved address for
+    /// @return The approved address for this NFT, or the zero address if there is none
+    function getApproved(uint256 _tokenId) public view returns (address) {
+        require(_exist(_tokenId), "Token not found");
+        return _tokenApproval[_tokenId];
     }
 }
