@@ -11,6 +11,18 @@ contract ERC721 is ERC165, IERC721 {
     mapping(address => uint) private _ownedTokens;
     mapping(uint256 => address) private _tokenApproval;
 
+    constructor() {
+        _registerInterface(
+            bytes4(
+                keccak256("balanceOf(bytes4)") ^
+                    keccak256("ownerOf(bytes4)") ^
+                    keccak256("transferFrom(bytes4)") ^
+                    keccak256("approve(bytes4)") ^
+                    keccak256("getApproved(bytes4)")
+            )
+        );
+    }
+
     // inherit from interfface
     // event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
     // event Approval(address indexed _owner, address indexed _approved, uint256 indexed _tokenId );
@@ -71,7 +83,7 @@ contract ERC721 is ERC165, IERC721 {
         address _from,
         address _to,
         uint256 _tokenId
-    )  override public {
+    ) public override {
         require(_isApprovedOrOwner(msg.sender, _tokenId));
         _transferFrom(_from, _to, _tokenId);
     }
