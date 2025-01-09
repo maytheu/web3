@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-contract ERC721 {
+import './ERC165.sol';
+
+contract ERC721 is ERC165 {
     // map token id to address owner
     mapping(uint => address) private _tokenOwner;
     // map address to owned tokens
