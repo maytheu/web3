@@ -4,6 +4,10 @@ Contains smart contracts migration on the blockchain to new addresses
 
 using truffle
 
+Initialize truffle project
+
+`truffle init`
+
 Compile the code
 
 `truffle compile`
