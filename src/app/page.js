@@ -1,11 +1,11 @@
-'use client'
+"use client";
 import styles from "./page.module.css";
 import detectEthereumProvider from "@metamask/detect-provider";
 import Web3 from "web3";
 import { useEffect } from "react";
+import KryptoBirdz from "../abis/KryptoBirdz";
 
 export default function Home() {
-
   useEffect(() => {
     loadWeb3();
   }, []);
@@ -14,11 +14,18 @@ export default function Home() {
     const provider = await detectEthereumProvider();
     if (provider) {
       console.log("Provider connected");
-      window.web3 = new Web3(provider);
+
+      // Request accounts
+      await provider.request({ method: "eth_requestAccounts" });
+
+      // Get accounts
+      const accounts = await provider.request({ method: "eth_accounts" });
+      console.log("Connected accounts:", accounts);
     } else {
       console.error("Provider not connected");
     }
   }
+
 
   return <div className={styles.page}>NFT MARKETPLACE</div>;
 }
