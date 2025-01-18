@@ -4,6 +4,14 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import Web3 from "web3";
 import { useEffect, useState } from "react";
 import KryptoBirdz from "../abis/KryptoBirdz";
+import {
+  MDBBtn,
+  MDBCard,
+  MDBCardBody,
+  MDBCardImage,
+  MDBCardText,
+  MDBCardTitle,
+} from "mdb-react-ui-kit";
 
 export default function Home() {
   const [account, setAccount] = useState("");
@@ -71,7 +79,6 @@ export default function Home() {
         .once("receipt", (receipt) => {
           setKryptoBirdz((prev) => [...prev, kryptoInput]);
           setKrptoInput("");
-          
         });
   }
 
@@ -115,9 +122,32 @@ export default function Home() {
                   className="btn btn-primary btn-black m-2"
                 />
               </form>
-              {kryptoBirdz}
             </div>
           </main>
+        </div>
+        <hr></hr>
+        <div className="row text-center">
+          {kryptoBirdz.map((krypto, i) => {
+            return (
+              <div key={i}>
+                <div>
+                  <MDBCard className="token img" style={{ maxWidth: "22rem" }}>
+                    <MDBCardImage
+                      src={krypto}
+                      position="top"
+                      height="250rem"
+                      style={{ marginRight: "4px" }}
+                    />
+                    <MDBCardBody>
+                      <MDBCardTitle>KryptoBirdz</MDBCardTitle>
+                      <MDBCardText>Nft description</MDBCardText>
+                      <MDBBtn href={krypto}>Download</MDBBtn>
+                    </MDBCardBody>
+                  </MDBCard>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
