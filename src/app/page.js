@@ -12,6 +12,7 @@ import {
   MDBCardText,
   MDBCardTitle,
 } from "mdb-react-ui-kit";
+import './page.css'
 
 export default function Home() {
   const [account, setAccount] = useState("");
@@ -83,7 +84,7 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <div className="container-filled">
       <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
         <div
           className="navbar-brand col-sm-3 col-md-3 mr-0 "
@@ -126,11 +127,12 @@ export default function Home() {
           </main>
         </div>
         <hr></hr>
-        <div className="row text-center">
-          {kryptoBirdz.map((krypto, i) => {
-            return (
-              <div key={i}>
-                <div>
+
+        <div className="container">
+          <div className="row text-center">
+            {kryptoBirdz.map((krypto, i) => {
+              return (
+                <div key={i} className="col">
                   <MDBCard className="token img" style={{ maxWidth: "22rem" }}>
                     <MDBCardImage
                       src={krypto}
@@ -145,9 +147,9 @@ export default function Home() {
                     </MDBCardBody>
                   </MDBCard>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

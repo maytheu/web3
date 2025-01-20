@@ -1,0 +1,47 @@
+body {
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(-45deg, #ee7753, #e73c7e, #23d5ab);
+    animation: gradientBG 15s ease infinite;
+    background-size: 400% 4 00%;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.token {
+    width: 300px;
+    box-shadow: 0 8px 16px rgba(5, 5, 5, 0.3);
+    padding: 2px 16px;
+    margin: 16px;
+    border-radius: 8px;
+    background: url(https://www.istockphoto.com/photo/clouds-on-sky-gm184103864-16699674?utm_campaign=srp_photos_top&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Ffree-images&utm_medium=affiliate&utm_source=unsplash&utm_term=free+images%3A%3A%3A) repeat;
+}
+
+.img {
+    border: .3px rgba(#111111);
+    box-shadow: 10px 10px 8px rgba(#111111);
+    border-radius: 4px;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.container-filled {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 50;
+}
