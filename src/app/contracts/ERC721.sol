@@ -3,12 +3,19 @@ pragma solidity ^0.8.13;
 
 import "./ERC165.sol";
 import "./interfaces/IERC721.sol";
+import './library/Counters.sol';
 
 contract ERC721 is ERC165, IERC721 {
+    //unint to have access to SafeMath
+    using SafeMath for uint256;
+    // inherit counter struct
+    using Counters for Counters.Counter;
+
     // map token id to address owner
     mapping(uint => address) private _tokenOwner;
     // map address to owned tokens
-    mapping(address => uint) private _ownedTokens;
+    mapping(address => Counters.Counter) private _ownedTokens;
+    //Counters.Counter -> from counters libbrary
     mapping(uint256 => address) private _tokenApproval;
 
     constructor() {
@@ -27,10 +34,10 @@ contract ERC721 is ERC165, IERC721 {
     // event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
     // event Approval(address indexed _owner, address indexed _approved, uint256 indexed _tokenId );
 
-    // return total nfs owned/minted
+    // return total nfts owned/minted
     function balanceOf(address _owner) public view override returns (uint256) {
         require(_owner != address(0), "Address do not exist");
-        return _ownedTokens[_owner];
+        return _ownedTokens[_owner].current();
     }
 
     function ownerOf(uint256 _tokenId) public view override returns (address) {
@@ -55,7 +62,7 @@ contract ERC721 is ERC165, IERC721 {
 
         // add token to address and increment count of address
         _tokenOwner[tokenId] = to;
-        _ownedTokens[to] += 1;
+        _ownedTokens[to].increment();
 
         emit Transfer(address(0), to, tokenId);
     }
@@ -71,8 +78,8 @@ contract ERC721 is ERC165, IERC721 {
             "Transfer token to invalid address"
         );
 
-        _ownedTokens[_from] += 1;
-        _ownedTokens[_to] += 1;
+        _ownedTokens[_from].decrement();
+        _ownedTokens[_to].increment();
 
         _tokenOwner[_tokenId] = _to;
 
